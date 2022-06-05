@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-python-app
+  labels:
+    app: my-python-app
+    env: qa
+  namespace: qa  
+spec:
+  schedule: "*/2 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: my-service-acc1
+          containers:
+          - name: app
+            image: 221867667342.dkr.ecr.ap-south-1.amazonaws.com/ecr-test-repo1:my-python-app-1
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: APP_ENV
+              value: "qa"
+            - name: BUCKET_BASE_NAME
+              value: "sanidhya-pagare-platform-challenge"
+          restartPolicy: OnFailure
