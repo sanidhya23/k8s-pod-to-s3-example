@@ -23,18 +23,18 @@ terraform apply <br />
 
 # Build and Push App docker image, please use the ECR path as per the AWS account <br />
 cd .. <br />
-export ECR_REPO=221867667342.dkr.ecr.ap-south-1.amazonaws.com/ecr-test-repo1  <br />
+export ECR_REPO=<account>.dkr.ecr.ap-south-1.amazonaws.com/ecr-test-repo1  <br />
 docker build -t $ECR_REPO:my-python-app-1 .  <br />
 docker push $ECR_REPO:my-python-app-1  <br />
 
 # Create the deployment setup in EKS cluster  <br />
 # Create service account and map it to IAM Role and Policy to get access to write to S3. Use the policy ARN recived from previos steps   <br />
 kubectl apply -f namespaces.yaml <br />
-eksctl create iamserviceaccount --name my-service-acc1 --namespace prod --cluster cluster1 --attach-policy-arn arn:aws:iam::221867667342:policy/my-app-s3-policy <br />
-eksctl create iamserviceaccount --name my-service-acc1 --namespace prod --cluster cluster1 --attach-policy-arn arn:aws:iam::221867667342:policy/my-app-s3-policy --approve  <br />
+eksctl create iamserviceaccount --name my-service-acc1 --namespace prod --cluster cluster1 --attach-policy-arn arn:aws:iam::<account>:policy/my-app-s3-policy <br />
+eksctl create iamserviceaccount --name my-service-acc1 --namespace prod --cluster cluster1 --attach-policy-arn arn:aws:iam::<account>:policy/my-app-s3-policy --approve  <br />
 
-eksctl create iamserviceaccount --name my-service-acc1 --namespace qa --cluster cluster1 --attach-policy-arn arn:aws:iam::221867667342:policy/my-app-s3-policy <br />
-eksctl create iamserviceaccount --name my-service-acc1 --namespace qa --cluster cluster1 --attach-policy-arn arn:aws:iam::221867667342:policy/my-app-s3-policy --approve <br />
+eksctl create iamserviceaccount --name my-service-acc1 --namespace qa --cluster cluster1 --attach-policy-arn arn:aws:iam::<account>:policy/my-app-s3-policy <br />
+eksctl create iamserviceaccount --name my-service-acc1 --namespace qa --cluster cluster1 --attach-policy-arn arn:aws:iam::<account>:policy/my-app-s3-policy --approve <br />
 
 
 # Please ensure that correct image path is mentrioned in the following files <br />
